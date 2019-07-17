@@ -121,7 +121,7 @@ function loadNoteDetail() {
 				// 输出笔记题目
 				$("#input_note_title").val(noteTitle);
 				// 输出笔记内容
-				um.ready(function() {
+				ue.ready(function() {
 					if (noteBody != null) {
 						um.setContent(noteBody);
 					} else {

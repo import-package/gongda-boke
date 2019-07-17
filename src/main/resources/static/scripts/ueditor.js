@@ -31,8 +31,8 @@ function addUeditor() {
 		     'simpleupload', //单图上传
 		     'insertimage', //多图上传
 		     'emotion', //表情
-		     'spechars', //特殊字符		     
+		     'spechars', //特殊字符
 		     ]
 		]
-	});	
+	});
  };

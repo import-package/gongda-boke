@@ -33,9 +33,7 @@ public class PostServiceImpl implements PostService {
         Note note = this.noteMapper.findByNoteId(noteId);
         this.noteMapper.share(noteId, System.currentTimeMillis());
         String userId = this.noteMapper.findUserIdByNoteId(noteId);
-        System.out.println(userId);
         String userNick = this.userMapper.findNickByUserId(userId);
-        System.out.println(userNick);
         Post post = new Post();
         post.setCn_user_id(userId);
         post.setCn_user_nick(userNick);
@@ -75,7 +73,6 @@ public class PostServiceImpl implements PostService {
         map.put("begin", begin);
 
         List<Post> list = this.postMapper.findByLikes(map);
-        System.out.println(list);
         if (list!=null){
             String limitBody = null;
             Iterator iterator = list.iterator();
@@ -115,7 +112,6 @@ public class PostServiceImpl implements PostService {
         Map map = new HashMap();
         map.put("begin", begin);
         List<Post> list = this.postMapper.findByTime(map);
-        System.out.println(list);
         String limitBody = null;
         Iterator iterator = list.iterator();
         while(iterator.hasNext()) {
