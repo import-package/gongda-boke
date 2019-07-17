@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.GreatMapper">
+	<!-- 将笔记分享作为帖子 -->
+	<select id="checkUserIfGreat" resultType="com.ipty.boke.pojo.Great">
+		SELECT 
+			*
+		FROM
+			cn_great
+		WHERE
+			cn_post_id = #{arg0}
+				AND
+			cn_user_id = #{arg1}
+	</select>
+	
+	<insert id="add" parameterType="com.ipty.boke.pojo.Great">
+		INSERT INTO 
+			cn_great(cn_post_id,
+					 cn_user_id) 
+		VALUES	   (#{cn_post_id},
+					#{cn_user_id})
+	</insert>
+	
+	<delete id="delete" parameterType="com.ipty.boke.pojo.Great">
+		DELETE FROM
+			cn_great
+		WHERE 
+			cn_post_id = #{cn_post_id}
+			AND
+			cn_user_id = #{cn_user_id}
+	</delete>
+	
+	<update id="addNumber" parameterType="string">
+		UPDATE 
+			cn_post
+		SET
+			cn_post_likes = (cn_post_likes + 1) 
+		WHERE 
+			cn_post_id = #{postId}; 
+	</update>
+	
+	<update id="deleteNumber" parameterType="string">
+		UPDATE 
+			cn_post
+		SET
+			cn_post_likes = (cn_post_likes - 1) 
+		WHERE 
+			cn_post_id = #{postId}; 
+	</update>
+	
+  </mapper>

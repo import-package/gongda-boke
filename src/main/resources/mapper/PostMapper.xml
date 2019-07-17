@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.PostMapper">
+	<!-- 将笔记分享作为帖子 -->
+	<insert id="save" parameterType="com.ipty.boke.pojo.Post">
+		INSERT INTO
+			cn_post(
+				cn_post_id,
+				cn_post_title,
+				cn_post_body,
+				cn_note_id,
+				cn_post_replys,
+				cn_post_looks,
+				cn_post_likes,
+				cn_post_modify_time,
+				cn_post_create_time,
+				cn_user_nick,
+				cn_user_id)
+		VALUES	
+				(#{cn_post_id},
+			  	 #{cn_post_title},
+			  	 #{cn_post_body},
+			  	 #{cn_note_id},
+			  	 #{cn_post_replys},
+			  	 #{cn_post_looks},
+			  	 #{cn_post_likes},
+			  	 #{cn_post_modify_time},
+			  	 #{cn_post_create_time},
+			  	 #{cn_user_nick},
+			  	 #{cn_user_id})
+	</insert>
+	
+	<!-- 搜索单个post -->
+	<select id="findByPostId" parameterType="string" resultType="com.ipty.boke.pojo.Post">
+		SELECT  
+			* 
+		FROM 
+			cn_post 
+		WHERE 
+			cn_post_id = #{Id}
+	</select>
+	
+	<!-- 搜索分享的笔记 -->
+	<select id="findLikeTitle" parameterType="Map" resultType="com.ipty.boke.pojo.Post">
+		SELECT 
+			*
+		FROM
+			cn_post
+		WHERE 
+			cn_post_title like #{title} 
+		ORDER BY
+			cn_post_likes
+		LIMIT 
+			#{begin},5
+			<!-- begin是从哪开始，每次传五个 -->
+	</select>
+	
+	<!-- 按点赞数排 -->
+	<select id="findByLikes" parameterType="Map" resultType="com.ipty.boke.pojo.Post">
+		SELECT 
+			*
+		FROM
+			cn_post
+		ORDER BY 
+			cn_post_likes DESC,cn_post_looks DESC,cn_post_create_time DESC
+		LIMIT 
+			#{begin},5
+	</select>
+	
+	<!-- 按创建时间排 -->
+	<select id="findByTime" parameterType="Map" resultType="com.ipty.boke.pojo.Post">
+		SELECT 
+			*
+		FROM
+			cn_post
+		ORDER BY 
+			cn_post_create_time DESC ,cn_post_likes DESC ,cn_post_looks DESC
+		LIMIT 
+			#{begin},5
+	</select>
+	
+	<!-- 删除帖子 -->
+	<delete id="delete" parameterType="string">
+		DELETE FROM
+	    	cn_note
+	    WHERE 
+	    	cn_post_id = #{postId}
+	</delete>
+	
+	<!-- 修改点赞数和评论数 -->
+		<update id="updatePost" parameterType="com.ipty.boke.pojo.Post">
+		update
+			cn_post
+		set
+			<trim suffixOverrides=","><!-- 去掉多余逗号 -->
+			<if test="cn_post_title!=null">
+				cn_post_title=#{cn_post_title},
+			</if>
+			<if test="cn_post_title!=null">
+				cn_post_body=#{cn_post_body},
+			</if>
+			<choose>
+				<when test="cn_post_modify_time!=null">
+					cn_post_last_modify_time=#{cn_post_last_modify_time}
+				</when>
+				<otherwise>
+					cn_post_last_modify_time=unix_timestamp()
+				</otherwise>
+			</choose>
+				cn_post_likes = #{cn_post_likes}
+				cn_post_looks = #{cn_post_looks}
+				cn_post_replys = #{cn_post_replys}
+			</trim>
+			where 
+				cn_post_id = #{cn_post_id}
+	</update>
+	
+	<update id="addLooks" parameterType="string">
+		UPDATE
+			cn_post
+		SET
+			cn_post_looks = (cn_post_looks + 1) 
+		WHERE 
+			cn_post_id = #{postId}; 
+	</update>
+	
+	<!-- 根据用户id查到点过赞的id 
+	<select id="findGreatPostId" parameterType="string">
+		SELECT
+			*
+		FROM
+			cn_great
+		WHERE
+			cn_user_id = #{userId}
+	</select>
+	
+	<select id="findGreatPostDetail" parameterType="string">
+		SELECT
+			*
+		FROM
+			cn_great
+		WHERE
+			cn_post_id = #{postId}
+	</select>-->
+  </mapper>

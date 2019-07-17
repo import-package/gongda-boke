@@ -1,0 +1,104 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en-US">
+<!--<![endif]-->
+
+<head>
+        <!-- META TAGS -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>新西兰旅游帮</title>
+
+        <link rel="shortcut icon" href="muban/images/favicon.png" />
+        <!-- Style Sheet-->
+        <link rel="stylesheet" href="muban/style.css" />
+        <link rel='stylesheet' id='bootstrap-css-css' href='muban/css/bootstrap5152.css?ver=1.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='responsive-css-css' href='muban/css/responsive5152.css?ver=1.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='pretty-photo-css-css' href='muban/js/prettyPhotoaeb9.css?ver=3.1.4' type='text/css' media='all' />
+        <link rel='stylesheet' id='main-css-css' href='muban/css/main5152.css?ver=1.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='custom-css-css' href='muban/css/custom5152.html?ver=1.0' type='text/css' media='all' />
+		<link rel='stylesheet' href='muban/css/cssbyme/cv.css' type='text/css'/>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+                <script src="js/html5.js"></script></script>
+                <![endif]-->
+
+</head>
+
+<body>
+        <!-- Start of Page Container -->
+        <div class="page-container">
+                <div class="container">
+                        <div class="row">
+
+                                <!-- start of page content -->
+                                <div class="span8 page-content">
+                                        <ul class="breadcrumb">
+                                                <li><a href="index.html">新西兰旅游帮</a><span class="divider">/</span></li>
+                                                <li><a href="edit.html" title="View all posts in Server &amp; Database" id="chuangzuozhe"></a> <span class="divider">/</span></li>
+                                                <li class="active" id="xiaobiaoti"> </li>
+                                        </ul>
+                                        <ul id="postDetail">
+                                        </ul>
+                                        
+                                </div>
+                        </div>
+                </div>
+		<div id="replydiv" style="margin-left: 18%">
+			<h4>评论</h4>
+				<div>
+				<input type="text" style="margin-left:5%;margin-bottom:60px;margin-top:20px; width:680px" placeholder="想对作者说些什么？" id="wodepinglun"></input>
+				<button style="margin-bottom:40px" id="fasonganniu" class="cvanniu">发送</button>
+				</div>
+				<div class="span8 main-listing">
+				<ul id="replyul">
+				</ul>
+				<div id="pagination">
+					<a class="btn" id="numberbefore">上一页 ◂</a> <a class="btn active"
+						id="numberone">1</a> <a class="btn" id="numbertwo">2</a> <a
+						class="btn" id="numberthree">3</a> <a class="btn" id="numbernext">下一页
+						▸</a>
+					<!--  <a  class="btn" id="numberlast">最后 »</a>-->
+				</div>
+				<span id="pinglunyouwu"></span>
+			</div>
+			<!-- End of Page Container -->
+			<a href="#top" id="scroll-top"></a>
+		</div>
+		<!-- script -->
+                <script type='text/javascript' src='muban/js/jquery-1.8.3.min.js'></script>
+                <script type='text/javascript' src='muban/js/jquery.easing.1.3.js'></script>
+                <script type='text/javascript' src='muban/js/jquery.prettyPhoto.js'></script>
+                <script type='text/javascript' src='muban/js/jflickrfeed.js'></script>
+                <script type='text/javascript' src='muban/js/jquery.liveSearch.js'></script>
+                <script type='text/javascript' src='muban/js/jquery.form.js'></script>
+                <script type='text/javascript' src='muban/js/jquery.validate.min.js'></script>
+                <script type='text/javascript' src='muban/js/custom.js'></script>
+                <script type="text/javascript" src='muban/js/jsByme/timeFormat.js'></script>
+				<script type='text/javascript' src='muban/js/jsByme/base.js'></script>
+                <script type="text/javascript" src='scripts/getUrlParam.js'></script>
+                <script type="text/javascript" src='muban/js/jsByme/detail.js'></script>
+                <script type="text/javascript" src="scripts/cookie_util.js"></script>
+                <script type="text/javascript">
+                
+               	//方法都在detail.js中
+                $(function() {
+                	window.postId = UrlParam.paramValues("postId");
+                	loadPostDetail();
+                	loadReplylist();
+                	$("#numberone").click(numberOne);
+        			$("#numbertwo").click(numberTwo);
+        			$("#numberthree").click(numberThree);
+        			$("#numbernext").click(numberNext);
+        			$("#numberbefore").click(numberBefore);
+        			var userId = getCookie("userId");
+        			$("#fasonganniu").click(pubReply);
+        			$("#postDetail").on("click", "#great", checkGreat);
+            	});
+                </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.UserMapper">
+  	 <select id="findByAdminCode" parameterType="string" resultType="com.ipty.boke.pojo.User">
+  	 	SELECT * FROM cn_user WHERE cn_user_admincode = #{admincode}
+  	 </select>
+  	 
+  	 <select id="save" parameterType="com.ipty.boke.pojo.User">
+  	 	INSERT INTO cn_user(cn_user_id,
+  	 						cn_user_admincode,
+  	 						cn_user_password,
+  	 						cn_user_create_time,
+  	 						cn_user_nick,
+  	 						cn_user_head_img_url,
+  	 						cn_user_sex,
+  	 						cn_user_state,
+  	 						cn_user_last_visit_time) 
+  	 						VALUES(#{cn_user_id},
+  	 							   #{cn_user_admincode},
+  	 							   #{cn_user_password},
+  	 							   #{cn_user_create_time},
+  	 							   #{cn_user_nick},
+  	 							   #{cn_user_head_img_url},
+  	 							   #{cn_user_sex},
+  	 							   #{cn_user_state},
+  	 							   #{cn_user_last_visit_time})
+  	 </select>
+  	 
+  	 <select id="findPassword" parameterType="string" resultType="string">
+  	 	SELECT
+  	 		cn_user_password
+  	 	FROM
+  	 		cn_user
+  	 	WHERE
+  	 		cn_user_id = #{userId}
+  	 </select>
+  	 
+  	 <update id="fixPassword">
+  	 	 UPDATE 
+			cn_user 
+		SET 
+			cn_user_password = #{newPassword}
+		WHERE
+			cn_user_id=#{userId}
+  	 </update>
+  
+  	 <!-- 根据用户id搜索昵称 -->
+  	 <select id="findNickByUserId" parameterType='string' resultType='string'>
+  	 	SELECT 
+  	 		cn_user_nick
+  	 	FROM 
+  	 		cn_user
+  	 	WHERE 
+  	 		cn_user_id = #{userId}
+  	 </select>
+  </mapper>

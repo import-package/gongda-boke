@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.NoteMapper">
+	<!-- 返回笔记列表 -->
+	<select id="findListByBookId" parameterType="string" resultType="Map">
+		SELECT 
+			cn_note_id,cn_note_title,cn_note_status_id
+		FROM 
+			cn_note 
+		WHERE 
+			cn_notebook_id=#{bookId} 
+		ORDER BY
+			cn_note_create_time DESC
+	</select>
+	
+	<!-- 返回回收站笔记列表 -->
+	<select id="findListByStatusId" parameterType="string" resultType="Map">
+		SELECT 
+			cn_note_id,cn_note_title,cn_note_status_id
+		FROM 
+			cn_note 
+		WHERE 
+			cn_note_status_id = 2
+		AND
+			cn_user_id = #{userId}
+		ORDER BY
+			cn_note_last_modify_time DESC
+	</select>
+	
+	<!-- 查找笔记详细内容 -->
+	<select id="findByNoteId" parameterType="string" resultType="com.ipty.boke.pojo.Note">
+		SELECT 
+			* 
+		FROM 
+			cn_note 
+		WHERE 
+			cn_note_id=#{noteId}
+	</select>
+
+	<!-- 增加笔记 -->
+	<insert id="save" parameterType="com.ipty.boke.pojo.Note">
+		INSERT INTO 
+			cn_note(cn_note_id,
+					cn_notebook_id,
+					cn_user_id,
+					cn_note_status_id,
+					cn_note_type_id,
+					cn_note_title,
+					cn_note_body,
+					cn_note_create_time,
+					cn_note_last_modify_time,
+					cn_note_imgs_url) 
+		VALUES	   (#{cn_note_id},
+					#{cn_notebook_id},
+					#{cn_user_id},
+					#{cn_note_status_id},
+					#{cn_note_type_id},
+					#{cn_note_title},
+					#{cn_note_body},
+					#{cn_note_create_time},
+					#{cn_note_last_modify_time},
+					#{cn_note_imgs_url})
+	</insert>
+	
+	<!-- 将笔记放入回收站 -->
+	<update id="recycle">
+		UPDATE 
+			cn_note 
+		SET 
+			cn_note_status_id= 2,
+			cn_note_last_modify_time=#{modifyTime}
+		WHERE
+			cn_note_id=#{noteId}
+	</update>
+
+	<!-- 将笔记从回收站撤回 -->
+	<update id="LeaveRecycle">
+		UPDATE 
+			cn_note 
+		SET 
+			cn_note_status_id= 1,
+			cn_note_last_modify_time=#{modifyTime}
+		WHERE
+			cn_note_id=#{noteId}
+	</update>
+	
+	<!-- 将笔记分享状态为3 -->
+	<update id="share">
+		UPDATE 
+			cn_note 
+		SET 
+			cn_note_status_id= 3,
+			cn_note_last_modify_time=#{arg1}
+		WHERE
+			cn_note_id=#{arg0}
+	</update>
+	
+	<!-- 更新笔记 -->
+	<update id="updateNoteByMap" parameterType="map">
+		update
+			cn_note
+		set
+			<trim suffixOverrides=","><!-- 去掉多余逗号 -->
+			<if test="title!=null">
+				cn_note_title=#{title},
+			</if>
+			<if test="body!=null">
+				cn_note_body=#{body},
+			</if>
+			<if test="noteBookId!=null">
+				cn_notebook_id=#{noteBookId},
+			</if>
+			<choose>
+				<when test="time!=null">
+					cn_note_last_modify_time=#{time}
+				</when>
+				<otherwise>
+					cn_note_last_modify_time=unix_timestamp()
+				</otherwise>
+			</choose>
+			</trim>
+			where 
+				cn_note_id = #{noteId}
+	</update>
+
+	<!-- 将笔记删除 -->
+	<delete id="delete" parameterType="string">	
+		delete from cn_note where cn_note_id = #{noteId}
+	</delete>
+	
+	<!-- 搜索笔记 -->
+		<!-- 搜索分享的笔记 -->
+	<select id="findLikeTitle" parameterType="Map" resultType="com.ipty.boke.pojo.Note">
+	
+		SELECT 
+			*
+		FROM
+			cn_note
+		WHERE 
+			cn_note_title like #{title} 
+		ORDER BY
+			cn_note_create_time
+		LIMIT 
+			#{begin},5
+			<!-- begin是从哪开始，每次传五个 -->
+	</select>
+	  
+	 <!-- 根据笔记id搜索用户信息 -->
+	<select id="findUserIdByNoteId" parameterType="string" resultType='string'>
+		SELECT 
+			cn_user_id
+		FROM 
+			cn_note
+		WHERE 
+			cn_note_id = #{noteId}
+	</select>
+	  	<!--  
+	
+		delete from cn_note
+		where
+			<if test="status!=null">
+				cn_note_status_id = #{status} and
+			</if>
+			cn_note_id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+	</delete>-->
+  </mapper>
+  
+

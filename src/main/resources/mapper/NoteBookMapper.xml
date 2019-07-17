@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.NoteBookMapper">
+  
+		<!-- 返回笔记本列表 -->
+	<select id="findByUserId" parameterType="string" resultType="com.ipty.boke.pojo.NoteBook">
+		SELECT * FROM cn_notebook WHERE cn_user_id = #{userId} ORDER BY cn_notebook_create_time DESC
+	</select>
+	
+		<!-- 增加笔记 -->
+	<insert id="save" parameterType="com.ipty.boke.pojo.NoteBook">
+		INSERT INTO 
+			cn_notebook(cn_notebook_id,
+					cn_user_id,
+					cn_notebook_name,
+					cn_notebook_status_id,
+					cn_notebook_create_time) 
+		VALUES	   (#{cn_notebook_id},
+					#{cn_user_id},
+					#{cn_notebook_name},
+					#{cn_notebook_status_id},
+					#{cn_notebook_create_time})
+	</insert>
+	
+
+	
+		<!-- 删除笔记 -->
+	<delete id="deleteNoteBook" parameterType="string">
+		DELETE FROM
+			cn_notebook
+		WHERE
+			cn_notebook_id = #{noteBookId}
+	</delete>
+	
+	<!-- 回收笔记本中的所有笔记 -->
+	<update id="recycleAllSonNotes" parameterType="string">
+		UPDATE
+			cn_note
+		SET 
+			cn_note_status_id = 2
+		WHERE 
+			cn_notebook_id = #{noteBookId}
+	</update>
+	
+	<!-- 更改笔记本被删除的笔记的笔记本Id -->
+	<update id="changeBookId" parameterType="string">
+		UPDATE
+			cn_note
+		SET 
+			cn_notebook_id = #{newBookId}
+		WHERE 
+			cn_notebook_id = #{oldBookId}
+	</update>
+	
+			<!-- 回收笔记本
+	<update id="recycleNoteBook" parameterType="string">
+		UPDATE
+			cn_notebook
+		SET 
+			cn_notebook_status_id = 2
+		WHERE 
+			cn_notebook_id = #{noteBookId}
+	</update> -->
+
+
+	</mapper>

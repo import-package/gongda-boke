@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ipty.boke.mapper.ReplyMapper">
+  	 <select id="save" parameterType="com.ipty.boke.pojo.Reply">
+  	 	INSERT INTO cn_reply(cn_reply_id,
+  	 						cn_user_id,
+  	 						cn_post_id,
+  	 						cn_reply_body,
+  	 						cn_reply_create_time,
+  	 						cn_user_nick,
+  	 						cn_reply_likes) 
+  	 					VALUES
+  	 							   (#{cn_reply_id},
+  	 							   #{cn_user_id},
+  	 							   #{cn_post_id},
+  	 							   #{cn_reply_body},
+  	 							   #{cn_reply_create_time},
+  	 							   #{cn_user_nick},
+  	 							   #{cn_reply_likes})
+  	 </select>
+  	
+  	 <!-- 删除评论 -->
+  	 <delete id="delete" parameterType="string">
+  	 	DELETE FROM
+  	 		cn_reply
+  	 	WHERE
+  	 		cn_reply_id = #{replyId}
+  	 </delete>
+  	 
+  	 <!-- 返回评论列表 -->
+  	 <select id="findByPostId"  resultType="com.ipty.boke.pojo.Reply">
+		SELECT 
+			*
+		FROM 
+			cn_reply
+		WHERE 
+			cn_post_id=#{postId}
+		ORDER BY
+			cn_reply_create_time DESC
+		LIMIT 
+			#{page},10
+	</select>
+ 	
+ 	 <update id="addReplysNumber" parameterType="string">
+ 	 	UPDATE 
+			cn_post
+		SET
+			cn_post_replys = (cn_post_replys + 1) 
+		WHERE 
+			cn_post_id = #{postId}; 
+ 	 </update>
+  </mapper>
