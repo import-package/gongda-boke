@@ -93,9 +93,9 @@
 			cn_note 
 		SET 
 			cn_note_status_id= 3,
-			cn_note_last_modify_time=#{arg1}
+			cn_note_last_modify_time=#{createTime}
 		WHERE
-			cn_note_id=#{arg0}
+			cn_note_id=#{noteId}
 	</update>
 	
 	<!-- 更新笔记 -->

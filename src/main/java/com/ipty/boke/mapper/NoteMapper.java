@@ -23,7 +23,7 @@ public interface NoteMapper extends BaseMapper<Note> {
 
     int delete(String var1);
 
-    int share(String var1, Long var2);
+    int share(@Param("noteId") String var1, @Param("createTime") Long var2);
 
     List<Map> findListByStatusId(String var1);
 
