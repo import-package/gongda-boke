@@ -3,14 +3,13 @@ package com.ipty.boke.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-@Getter
-@Setter
-@ToString
+@Data
 @TableName("cn_post")
 
 public class Post implements Serializable {

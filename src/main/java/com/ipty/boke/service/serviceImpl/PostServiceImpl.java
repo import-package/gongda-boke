@@ -80,8 +80,8 @@ public class PostServiceImpl implements PostService {
                 Post p = (Post)iterator.next();
                 if (p!=null){
                     if (p.getCn_post_body() != null) {
-                        if (p.getCn_post_body().length() > 1500){
-                            limitBody = p.getCn_post_body().substring(0, 1500);
+                        if (p.getCn_post_body().length() > 50){
+                            limitBody = p.getCn_post_body().substring(0, 50);
                             p.setCn_post_body(limitBody + "...");
                         }
                     } else if (p.getCn_post_body() == null) {

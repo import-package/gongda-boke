@@ -6,8 +6,8 @@
     "imageCompressEnable": true, 	
     "imageCompressBorder": 1600, 
     "imageInsertAlign": "none",
-    "imageUrlPrefix": "http://39.105.113.105:80",
-    "imagePathFormat": "/../images/{yyyy}{mm}{dd}/{time}{rand:6}", 
+    "imageUrlPrefix": "",
+    "imagePathFormat": "/../images/{yyyy}{mm}{dd}/{time}{rand:6}",
  
     
                                
